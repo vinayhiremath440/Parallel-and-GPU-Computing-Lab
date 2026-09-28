@@ -111,3 +111,17 @@ int main() {
     // cleanup
     return 0;
 }
+## 🚀 Part B: OpenMP Shared-Memory Parallelism (Completed)
+
+### 1. Methodology & Multithreading Mechanics
+OpenMP applies symmetric multiprocessing (SMP) utilizing the **Fork-Join concurrency model**:
+* Primary master thread encounters `#pragma omp parallel for private(j, k)`.
+* Spawns a worker team of 16 threads.
+* Outer loop $i$ (4000 row iterations) is partitioned evenly (~250 rows per thread).
+* Iteration variables `j` and `k` are set to `private` mode to prevent stack data races, while `A`, `B`, and `C` remain shared memory buffers.
+* Precision timing is measured via `omp_get_wtime()`.
+
+### 2. Environment Setup
+```bash
+export OMP_NUM_THREADS=16
+echo $OMP_NUM_THREADS # Outputs 16
